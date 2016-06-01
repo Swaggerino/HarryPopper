@@ -15,6 +15,18 @@ def main_screen():  # defines the enter screen
     win.addstr(curses.LINES // 2 + 1, (curses.COLS - len(quit)) // 2, quit)  # overwrited to place to the middle
 
 
+def ghost_erase():
+    for i in range(5):
+        win.addstr(char - i, wl - 3, '          ')
+
+
+def ghost():
+    with open("ghost.txt") as f:
+        content = f.readlines()
+        for i, row in enumerate(content):
+            win.addstr(char-3+i, wl-3, row)
+
+
 def randomch():
     charlist = ["x", "c", "v", "b", "n", "m", "d", "f", "g", "h", "j"]
     randomchar = random.randrange(len(charlist))
@@ -22,7 +34,7 @@ def randomch():
 
 
 def randompoz():
-    randomp = random.randrange(24, curses.COLS - 1)
+    randomp = random.randrange(24, curses.COLS - 10)
     return randomp
 
 
@@ -36,37 +48,41 @@ def game_over():
 
 
 def main():
-    char = 2
+    global char  # global for the ghost movement
+    char = 6
     level = 1
     score = 0
-    wintime = 100
-    win.addstr(0, 0, "Score: 0")
+    wintime = 120
+    win.addstr(1, 1, "[Score: 0]")
     string = "LEVEL: 1"
     win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, string)
-    bottom = curses.LINES - 2
+    bottom = curses.LINES - 3  # modified not to delete level string
     key_pressed = False         # I also made a "bottom" variable to assign the value
     buddy = randomch()
+    global wl  # global for the ghost movement
     wl = randompoz()
     while char < bottom:
+        ghost()
         win.addch(char, wl, buddy)
-        win.addch(char-1, wl, ' ')
+        win.addstr(char-4, wl-2, '   ')
         char += 1
         win.refresh()
         win.timeout(wintime - level * 20)
+        win.border(0)  # enumerate erase border so we need this
         event = win.getch()
         if char == bottom:
             game_over()     # game ends
         if event == ord(buddy):
             score += 1
             score = str(score)
-            win.addstr(0, 0, "Score: " + score)
+            win.addstr(1, 1, "[Score: " + score + "]")
             score = int(score)
             key_pressed = True
-            win.addch(char-1, wl, ' ')
+            ghost_erase()
             win.refresh()
             buddy = randomch()
             wl = randompoz()
-            char = 2        # assigned to 2 cos it won't clear border this way
+            char = 6
         if score == 20:
             level = 2
             with open("littleharry.txt") as f:
@@ -74,8 +90,8 @@ def main():
                 for i, row in enumerate(content):
                     win.addstr(curses.LINES-16+i, 1, row)
                     win.border(0)
-                    title = "Harry Popper"
-                    win.addstr(0, (curses.COLS - len(title)) // 2, title)
+                    title = "<<<Harry Popper>>>"
+                    win.addstr(1, (curses.COLS - len(title)) // 2, title)
                     level = str(level)
                     string = " LEVEL: "
                     win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
@@ -91,8 +107,8 @@ def main():
 def get_started():
     win.clear()
     win.border(0)
-    title = "Harry Popper"
-    win.addstr(0, (curses.COLS - len(title)) // 2, title)
+    title = "<<<Harry Popper>>>"
+    win.addstr(1, (curses.COLS - len(title)) // 2, title)
     main()
 
 
