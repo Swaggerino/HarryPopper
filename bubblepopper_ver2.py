@@ -72,6 +72,12 @@ def main():
         event = win.getch()
         if char == bottom:
             game_over()     # game ends
+        if key_pressed is False:
+            with open("littleharry.txt") as f:
+                content = f.readlines()
+                for i, row in enumerate(content):
+                    win.addstr(curses.LINES-16+i, 1, row)
+                    win.border(0)
         if event == ord(buddy):
             score += 1
             score = str(score)
@@ -83,19 +89,18 @@ def main():
             buddy = randomch()
             wl = randompoz()
             char = 6
-        if score == 20:
-            level = 2
-            with open("littleharry.txt") as f:
+            with open("littleharry2.txt") as f:
                 content = f.readlines()
                 for i, row in enumerate(content):
                     win.addstr(curses.LINES-16+i, 1, row)
                     win.border(0)
-                    title = "<<<Harry Popper>>>"
-                    win.addstr(1, (curses.COLS - len(title)) // 2, title)
-                    level = str(level)
-                    string = " LEVEL: "
-                    win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
-                    level = int(level)
+                    key_pressed = False
+        if score == 20:
+            level = 2
+            level = str(level)
+            string = " LEVEL: "
+            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
+            level = int(level)
         elif score == 40:
             level = 3
             level = str(level)
