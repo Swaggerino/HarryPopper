@@ -76,7 +76,7 @@ def main():
             with open("littleharry.txt") as f:
                 content = f.readlines()
                 for i, row in enumerate(content):
-                    win.addstr(curses.LINES-16+i, 1, row)
+                    win.addstr(curses.LINES-17+i, 1, row)
                     win.border(0)
         if event == ord(buddy):
             score += 1
@@ -92,7 +92,7 @@ def main():
             with open("littleharry2.txt") as f:
                 content = f.readlines()
                 for i, row in enumerate(content):
-                    win.addstr(curses.LINES-16+i, 1, row)
+                    win.addstr(curses.LINES-17+i, 1, row)
                     win.border(0)
                     key_pressed = False
         if score == 20:
