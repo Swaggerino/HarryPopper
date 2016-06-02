@@ -13,14 +13,21 @@ def main_title():
             win.addstr(curses.LINES // 7+i, curses.COLS // 4, row)
 
 
+def last_screen():
+    with open("dobby.txt") as f:
+        content = f.readlines()
+        for i, row in enumerate(content):
+            win.addstr(curses.LINES - 18 + i, curses.COLS // 5, row)
+
+
 def main_screen():
     # curses.start_color()  # defines the enter screen
     # RED = curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
     curses.noecho()
     curses.curs_set(0)
     win.keypad(1)
-    win.border(0)
     main_title()
+    win.border(0)
     menu_bar = "Press p to Play"
     quit = "Press q to Quit"
     win.addstr(curses.LINES // 2, (curses.COLS - len(menu_bar)) // 2, menu_bar)  # overwrited to place to the middle
@@ -60,6 +67,7 @@ def randompoz():
 
 def game_over():
     win.clear()
+    last_screen()
     win.border(0)
     this_is_the_end = "Game Over!"
     win.addstr(curses.LINES // 2, (curses.COLS - len(this_is_the_end)) // 2, this_is_the_end)
