@@ -78,9 +78,9 @@ def main():
     level = 1
     score = 0
     wintime = 120
-    win.addstr(1, 1, "[Score: 0]")
+    win.addstr(1, 1, "[Score: 0]", curses.A_BOLD)
     string = ("LEVEL: 1")
-    win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, string)
+    win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, string, curses.A_BOLD)
     bottom = curses.LINES - 3  # modified not to delete level string
     key_pressed = False         # I also made a "bottom" variable to assign the value
     buddy = randomch()
@@ -108,7 +108,7 @@ def main():
             score
             score += 1
             score = str(score)
-            win.addstr(1, 1, "[Score: " + score + "]")
+            win.addstr(1, 1, "[Score: " + score + "]", curses.A_BOLD)
             score = int(score)
             key_pressed = True
             ghost_erase()
@@ -128,19 +128,19 @@ def main():
             level = 2
             level = str(level)
             string = " LEVEL: "
-            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
+            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level, curses.A_BOLD)
             level = int(level)
         elif score == 30:
             level = 3
             level = str(level)
             string = " LEVEL: "
-            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
+            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level, curses.A_BOLD)
             level = int(level)
         elif score == 45:
             level = 4
             level = str(level)
             string = " LEVEL: "
-            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
+            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level, curses.A_BOLD)
             level = int(level)
 
 
@@ -148,7 +148,7 @@ def get_started():
     win.clear()
     win.border(0)
     title = "<<<Harry Popper>>>"
-    win.addstr(1, (curses.COLS - len(title)) // 2, title)
+    win.addstr(1, (curses.COLS - len(title)) // 2, title, curses.A_BOLD)
     main()
 
 
