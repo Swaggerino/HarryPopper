@@ -4,15 +4,16 @@ import random
 import string
 
 win = curses.initscr()
-# curses.start_color()
-# colorful = curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+curses.start_color()
+curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
 
 def main_title():
     with open("main.txt") as f:
         content = f.readlines()
         for i, row in enumerate(content):
-            win.addstr(curses.LINES // 7+i, curses.COLS // 4, row)
+            win.addstr(curses.LINES // 7+i, curses.COLS // 4, row, curses.color_pair(1))
 
 
 def last_screen():
@@ -36,14 +37,14 @@ def main_screen():
 
 def ghost_erase():
     for i in range(5):
-        win.addstr(char - i, wl - 3, '          ')
+            win.addstr(char - i, wl - 3, '          ')
 
 
-def ghost():
-    with open("ghost.txt") as f:
-        content = f.readlines()
-        for i, row in enumerate(content):
-            win.addstr(char-3+i, wl-3, row)
+# def ghost():
+#     with open("ghost.txt") as f:
+#         content = f.readlines()
+#         for i, row in enumerate(content):
+#             win.addstr(char-3+i, wl-3, row, curses.color_pair(2))
 
 
 def randomch():
@@ -89,7 +90,7 @@ def main():
     while char < bottom:
         ghost()
         win.addch(char, wl, buddy, curses.A_BOLD)
-        win.addstr(char-4, wl-2, '   ')
+        win.addstr(char-4, wl-3, '    ')
         char += 1
         win.refresh()
         win.timeout(wintime - level * 15)
@@ -105,7 +106,6 @@ def main():
                     win.addstr(curses.LINES-17+i, 1, row)
                     win.border(0)
         if event == ord(buddy):
-            score
             score += 1
             score = str(score)
             win.addstr(1, 1, "[Score: " + score + "]", curses.A_BOLD)
