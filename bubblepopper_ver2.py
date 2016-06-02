@@ -1,14 +1,26 @@
 import curses
+import time
 import random
+import string
 
 win = curses.initscr()
 
 
-def main_screen():  # defines the enter screen
+def main_title():
+    with open("main.txt") as f:
+        content = f.readlines()
+        for i, row in enumerate(content):
+            win.addstr(curses.LINES // 7+i, curses.COLS // 4, row)
+
+
+def main_screen():
+    # curses.start_color()  # defines the enter screen
+    # RED = curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
     curses.noecho()
     curses.curs_set(0)
     win.keypad(1)
     win.border(0)
+    main_title()
     menu_bar = "Press p to Play"
     quit = "Press q to Quit"
     win.addstr(curses.LINES // 2, (curses.COLS - len(menu_bar)) // 2, menu_bar)  # overwrited to place to the middle
@@ -27,14 +39,22 @@ def ghost():
             win.addstr(char-3+i, wl-3, row)
 
 
+# def random_math():
+#     5 + 6
+
 def randomch():
-    charlist = ["x", "c", "v", "b", "n", "m", "d", "f", "g", "h", "j"]
-    randomchar = random.randrange(len(charlist))
-    return charlist[randomchar]
+    randomchar = random.choice(string.ascii_letters + string.digits)
+    return randomchar
+
+
+def randomch_with_specials():
+    special_chars = ("$" + "#" + "!" + "%" + "<" + ">" + "¤" + "@")
+    randomcharsp = random.choice(string.ascii_letters + string.digits + special_chars)
+    return randomcharsp
 
 
 def randompoz():
-    randomp = random.randrange(24, curses.COLS - 10)
+    randomp = random.randrange(26, curses.COLS - 10)
     return randomp
 
 
@@ -54,7 +74,7 @@ def main():
     score = 0
     wintime = 120
     win.addstr(1, 1, "[Score: 0]")
-    string = "LEVEL: 1"
+    string = ("LEVEL: 1")
     win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, string)
     bottom = curses.LINES - 3  # modified not to delete level string
     key_pressed = False         # I also made a "bottom" variable to assign the value
@@ -71,6 +91,7 @@ def main():
         win.border(0)  # enumerate erase border so we need this
         event = win.getch()
         if char == bottom:
+            key_pressed = 0
             game_over()     # game ends
         if key_pressed is False:
             with open("littleharry.txt") as f:
@@ -79,6 +100,7 @@ def main():
                     win.addstr(curses.LINES-17+i, 1, row)
                     win.border(0)
         if event == ord(buddy):
+            score
             score += 1
             score = str(score)
             win.addstr(1, 1, "[Score: " + score + "]")
@@ -87,6 +109,8 @@ def main():
             ghost_erase()
             win.refresh()
             buddy = randomch()
+            if score >= 45:
+                buddy = randomch_with_specials()
             wl = randompoz()
             char = 6
             with open("littleharry2.txt") as f:
@@ -95,14 +119,20 @@ def main():
                     win.addstr(curses.LINES-17+i, 1, row)
                     win.border(0)
                     key_pressed = False
-        if score == 20:
+        if score == 15:
             level = 2
             level = str(level)
             string = " LEVEL: "
             win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
             level = int(level)
-        elif score == 40:
+        elif score == 30:
             level = 3
+            level = str(level)
+            string = " LEVEL: "
+            win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
+            level = int(level)
+        elif score == 45:
+            level = 4
             level = str(level)
             string = " LEVEL: "
             win.addstr(curses.LINES - 2, (curses.COLS - len(string)) // 2, "LEVEL: " + level)
