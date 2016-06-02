@@ -4,6 +4,8 @@ import random
 import string
 
 win = curses.initscr()
+# curses.start_color()
+# colorful = curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
 
 
 def main_title():
@@ -21,8 +23,6 @@ def last_screen():
 
 
 def main_screen():
-    # curses.start_color()  # defines the enter screen
-    # RED = curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
     curses.noecho()
     curses.curs_set(0)
     win.keypad(1)
@@ -30,8 +30,8 @@ def main_screen():
     win.border(0)
     menu_bar = "Press p to Play"
     quit = "Press q to Quit"
-    win.addstr(curses.LINES // 2, (curses.COLS - len(menu_bar)) // 2, menu_bar)  # overwrited to place to the middle
-    win.addstr(curses.LINES // 2 + 1, (curses.COLS - len(quit)) // 2, quit)  # overwrited to place to the middle
+    win.addstr(curses.LINES // 2, (curses.COLS - len(menu_bar)) // 2, menu_bar, curses.A_BOLD)
+    win.addstr(curses.LINES // 2 + 1, (curses.COLS - len(quit)) // 2, quit, curses.A_BOLD)
 
 
 def ghost_erase():
@@ -45,9 +45,6 @@ def ghost():
         for i, row in enumerate(content):
             win.addstr(char-3+i, wl-3, row)
 
-
-# def random_math():
-#     5 + 6
 
 def randomch():
     randomchar = random.choice(string.ascii_letters + string.digits)
@@ -91,11 +88,11 @@ def main():
     wl = randompoz()
     while char < bottom:
         ghost()
-        win.addch(char, wl, buddy)
+        win.addch(char, wl, buddy, curses.A_BOLD)
         win.addstr(char-4, wl-2, '   ')
         char += 1
         win.refresh()
-        win.timeout(wintime - level * 20)
+        win.timeout(wintime - level * 15)
         win.border(0)  # enumerate erase border so we need this
         event = win.getch()
         if char == bottom:
