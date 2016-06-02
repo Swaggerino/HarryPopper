@@ -40,11 +40,11 @@ def ghost_erase():
             win.addstr(char - i, wl - 3, '          ')
 
 
-# def ghost():
-#     with open("ghost.txt") as f:
-#         content = f.readlines()
-#         for i, row in enumerate(content):
-#             win.addstr(char-3+i, wl-3, row, curses.color_pair(2))
+def ghost():
+    with open("ghost.txt") as f:
+        content = f.readlines()
+        for i, row in enumerate(content):
+            win.addstr(char-3+i, wl-3, row, curses.color_pair(2))
 
 
 def randomch():
@@ -90,7 +90,7 @@ def main():
     while char < bottom:
         ghost()
         win.addch(char, wl, buddy, curses.A_BOLD)
-        win.addstr(char-4, wl-3, '    ')
+        win.addstr(char-4, wl-3, '     ')
         char += 1
         win.refresh()
         win.timeout(wintime - level * 15)
