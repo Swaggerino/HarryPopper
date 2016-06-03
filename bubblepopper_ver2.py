@@ -23,7 +23,7 @@ def last_screen():  # A figure (Dobby) appears on the left-bottom side on the sc
             win.addstr(curses.LINES - 18 + i, curses.COLS // 5, row)
 
 
-def main_screen():  # Sets the parameters for the game, and appers the menu.
+def main_screen():  # Sets the parameters for the game, and appears the menu.
     curses.noecho()
     curses.curs_set(0)
     win.keypad(1)
